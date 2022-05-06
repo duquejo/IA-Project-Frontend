@@ -4,7 +4,8 @@
   "description": "IA Project frontend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack serve --open --mode development",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,8 @@
     "@types/react-dom": "^18.0.3",
     "@types/webpack": "^5.28.0",
     "babel-loader": "^8.2.5",
+    "html-loader": "^3.1.0",
+    "html-webpack-plugin": "^5.5.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "ts-loader": "^9.3.0",
@@ -37,6 +40,8 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.17.10",
-    "babel-plugin-transform-class-properties": "^6.24.1"
+    "@babel/preset-typescript": "^7.16.7",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "webpack-dev-server": "^4.9.0"
   }
 }
