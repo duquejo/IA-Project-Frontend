@@ -1,5 +1,5 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
@@ -14,34 +14,23 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.[jt]sx?$/,
                 exclude: /node_modules/,
                 use: {
                   loader: 'babel-loader',
                 },
             },
             {
-                test: /\.html$/,
-                use: [
-                  {
-                    loader: 'html-loader',
-                  },
-                ],
-            },
-            {
-                test: /\.(ts|tsx?)$/,
-                use: 'ts-loader',
-                exclude: /node_modules/,
-            },
-        ],
-    },
-    devServer: {
-        historyApiFallback: true,
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'], 
+            }
+        ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './public/index.html',
-            filename: './index.html'
-        }),
-    ]
+            title: "Fun game!",
+            template: './public/index.html'
+        })
+    ],
+    devtool: 'eval-source-map'
 };
