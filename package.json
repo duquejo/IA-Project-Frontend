@@ -25,6 +25,7 @@
   "homepage": "https://github.com/duquejo01/IA-Project-frontend#readme",
   "dependencies": {
     "react": "^18.1.0",
+    "react-canvas-draw": "^1.2.1",
     "react-dom": "^18.1.0",
     "react-hot-loader": "^4.13.0"
   },
@@ -35,6 +36,7 @@
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "@types/react": "^18.0.8",
+    "@types/react-canvas-draw": "^1.2.0",
     "@types/react-dom": "^18.0.3",
     "@types/react-redux": "^7.1.24",
     "autoprefixer": "^10.4.7",
