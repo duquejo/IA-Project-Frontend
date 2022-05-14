@@ -14,4 +14,7 @@
   h1 {
     @apply lg:text-7xl text-5xl text-white font-bold;
   }
+  h3 {
+    @apply lg:text-2xl text-2xl text-white font-semibold;
+  }
 }
