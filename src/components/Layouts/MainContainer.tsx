@@ -30,7 +30,7 @@ export const MainContainer = (): JSX.Element | null => {
             <div className="hangman-container grid grid-cols-3 px-3 pt-3">
               <Hangman />
               <div id="usedWords" className="col-span-1">
-                <h4 className="font-semibold">Used words</h4>
+                <h4 className="font-semibold">Used letters</h4>
                 <div className="grid gap-2 grid-cols-5 pt-2">
                   {
                     !! usedLetters.length && usedLetters.map( (letter: string, index: number ) => (
