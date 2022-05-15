@@ -17,4 +17,7 @@
   h3 {
     @apply lg:text-2xl text-2xl text-white font-semibold;
   }
+  .timer {
+    @apply bg-sky-400 text-xs font-bold text-white p-1 leading-none transition-all duration-500 text-right whitespace-nowrap;
+  }
 }

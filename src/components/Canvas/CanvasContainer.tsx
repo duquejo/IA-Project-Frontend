@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import CanvasDraw, { CanvasDrawProps } from 'react-canvas-draw';
 
 // interface ICanvasContainer {
@@ -10,7 +10,7 @@ export const CanvasContainer: React.FC<any> = (): JSX.Element | null => {
 
   const currentCanvas = useRef<any>(null);
 
-  const [canvas,_] = useState<any>({
+  const [canvas,_] = useState<CanvasDrawProps>({
     canvasWidth: 500,
     canvasHeight: 500,
     brushRadius: 7,
@@ -32,6 +32,7 @@ export const CanvasContainer: React.FC<any> = (): JSX.Element | null => {
 
   const handlePassAway = () => {
     prompt('Are you sure?','yes');
+    // Stop timer
   };
 
   return (

@@ -1,63 +1,63 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { CanvasContainer } from '../Canvas/CanvasContainer';
+import { Hangman } from './Hangman';
+import { Timer } from './Timer';
 
 export const MainContainer = (): JSX.Element | null => {
 
-  const [word, setWord] = useState( () => {
-
+  const [word] = useState( () => {
     const words = [ 'stunning', 'knowledge', 'paralyzing', 'maintenance', 'wood', 'better' ];
     return words[ Math.floor(Math.random() * words.length) ].toLocaleUpperCase();
   });
 
-
-  const [counter, setCounter] = useState(0);
-  const [maxTime] = useState(60);
-
-  useEffect(() => {
-
-    const timeout = setTimeout( () => {
-      setCounter(counter+1);
-    }, 1000 );
-
-    if( counter === maxTime ) {
-      alert('You lost!');
-      clearTimeout(timeout);
-    }    
-
-    // Cleaning
-    return () => clearTimeout(timeout);
-  }, [counter]);
-
-  const progressBarCalculation = (): number => {
-    return ( counter / maxTime ) * 100;
-  };
+  const [usedLetters] = useState<Array<string>>([
+    'A', 'E', 'C', 'Z', 'P', 'O', 'U', 'A', 'E', 'C', 'Z', 'P', 'O', 'U', 'A'
+  ]);
 
   return (
     <>
-      <h1 className="mb-3 drop-shadow-lg animate-[bounce_2s_infinite]">Let the AI hang-you... or not!</h1>
-      <h3 className="mb-2">Colaborate with the AI drawing a letter into the screen</h3>
+      <h1 className="mb-3 drop-shadow-lg animate-[bounce_2s_infinite]">Don't Let AI hang-you... or yes?</h1>
+      <h3 className="mb-2">Colaborate with the Artifial Intelligence drawing letters into the screen before your character dies</h3>
       <div className="max-w-screen-lg rounded-xl shadow-xl overflow-hidden flex align-center justify-center">
-        <div className="grid grid-flow-row-dense grid-cols-2 gap-0">
+        <div className="grid grid-flow-row-dense grid-cols-2">
+
+          {/* CanvasContainer */}
           <CanvasContainer/>
+
+          {/* UI */}
           <div className="bg-gray-50 col-span-1 border-1 flex flex-col justify-end">
 
-            {/* Hangman */}
-            <div className="hangman p-3">
-              <h4 className="italic text-sm">
-                Get ready for the next challenge!
-              </h4>
+            <div className="hangman-container grid grid-cols-3 px-3 pt-3">
+              <Hangman />
+              <div id="usedWords" className="col-span-1">
+                <h4 className="font-semibold">Used words</h4>
+                <div className="grid gap-2 grid-cols-5 pt-2">
+                  {
+                    !! usedLetters.length && usedLetters.map( (letter: string, index: number ) => (
+                      <div key={ index } 
+                          className="rounded-md bg-white w-5 h-5 text-center text-sm cursor-pointer">{ letter }</div>
+                    ))
+                  }
+                </div>
+              </div>
             </div>
 
-            {/* Timer */}
-            <div className="w-full bg-gray-200">
-              <div className="bg-sky-400 text-xs font-bold text-white p-1 leading-none transition-all duration-500 text-right" style={{ width: `${progressBarCalculation()}%` }}>{ counter } s</div>
+            {/* Clues */}
+            <div id="clue" className="px-3 pb-3">
+              <h5 className="text-sm">Tricks</h5>
+              <p className="italic text-sm">
+                Get ready for the next challenge!
+              </p>
             </div>
+
+            { /* Timer */}
+            <Timer />
 
             {/* Letters */}
             <div className="h-28 pb-6 pt-3 px-3 flex items-end gap-2">
               {
                 !! word.length && word.split('').map( ( letter: string, index: number ) => (
-                  <div key={ `letter-${ index }`} className="outline-none rounded-2xl w-full h-full text-center text-4xl font-extrabold bg-white flex justify-center items-center">{ letter }</div> 
+                  <div key={ `letter-${ index }`} className="cursor-pointer outline-none rounded-2xl w-full h-full text-center text-4xl font-extrabold bg-white flex justify-center items-center">{ letter }</div> 
                 ))
               }
             </div>
