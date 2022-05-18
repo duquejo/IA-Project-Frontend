@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 
 export const Timer = (): JSX.Element | null => {
 
@@ -12,9 +12,7 @@ export const Timer = (): JSX.Element | null => {
   }
 
   useEffect(() => {
-
     timer.current = setTimeout( () => setTimer(), 1000 );
-
     return () => {
       if( timer.current ) {{
         clearTimeout( timer.current );

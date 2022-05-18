@@ -12,12 +12,15 @@
     @apply text-lg;
   }
   h1 {
-    @apply lg:text-7xl text-5xl text-white font-bold;
+    @apply lg:text-6xl text-5xl text-white font-bold;
   }
   h3 {
-    @apply lg:text-2xl text-2xl text-white font-semibold;
+    @apply lg:text-xl text-2xl text-white font-semibold;
   }
   .timer {
     @apply bg-sky-400 text-xs font-bold text-white p-1 leading-none transition-all duration-500 text-right whitespace-nowrap;
+  }
+  .canvasButton {
+    @apply text-xl font-bold m-auto w-full h-full rounded-2xl transition-all ease-in duration-100 hover:animate-pulse bg-white hover:bg-amber-700 hover:text-white;
   }
 }

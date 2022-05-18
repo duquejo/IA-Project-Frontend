@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import CanvasDraw, { CanvasDrawProps } from 'react-canvas-draw';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { selectCount, increment } from '../../reducers/storage/storageReducer';
 
 // interface ICanvasContainer {
 //   width: number;
@@ -9,6 +11,8 @@ import CanvasDraw, { CanvasDrawProps } from 'react-canvas-draw';
 export const CanvasContainer: React.FC<any> = (): JSX.Element | null => {
 
   const currentCanvas = useRef<any>(null);
+  const count = useAppSelector( selectCount );
+  const dispatch = useAppDispatch();
 
   const [canvas,_] = useState<CanvasDrawProps>({
     canvasWidth: 500,
@@ -27,7 +31,8 @@ export const CanvasContainer: React.FC<any> = (): JSX.Element | null => {
   };
 
   const handleSendClick = () => {
-    alert('Sent!');
+    console.log('Sent!');
+    dispatch( increment() );
   };
 
   const handlePassAway = () => {
@@ -37,18 +42,23 @@ export const CanvasContainer: React.FC<any> = (): JSX.Element | null => {
 
   return (
     <div className="bg-white w-full m-0 relative">
+
+      {/* @TODO */}
+      <p className="absolute">{ count }</p>
+
       <CanvasDraw { ...canvas } ref={ currentCanvas }/>
-      <div id="controls" className="bg-slate-50 absolute bottom-0 h-28 pb-6 pt-3 px-3 w-full flex justify-between gap-2">
-        <button className="text-xl font-bold m-auto w-full h-full rounded-2xl transition-all ease-in duration-100 hover:animate-pulse bg-white hover:bg-rose-700 hover:text-white" onClick={ handleEraseCanvas }>
+      
+      <div id="controls" className="bg-slate-50 absolute bottom-0 h-24 pb-6 pt-3 px-3 w-full flex justify-between gap-2">
+        <button className="canvasButton" onClick={ handleEraseCanvas }>
           Erase
         </button>
-        <button className="text-xl font-bold m-auto w-full h-full rounded-2xl transition-all ease-in duration-100 hover:animate-pulse bg-white hover:bg-amber-700 hover:text-white" onClick={ handleUndoCanvas }>
+        <button className="canvasButton" onClick={ handleUndoCanvas }>
           Undo
         </button>
-        <button className="text-xl font-bold m-auto w-full h-full rounded-2xl transition-all ease-in duration-100 hover:animate-pulse bg-white hover:bg-green-700 hover:text-white" onClick={ handleSendClick }>
+        <button className="canvasButton" onClick={ handleSendClick }>
          Send
         </button>
-        <button className="text-xl font-bold m-auto w-full h-full rounded-2xl transition-all ease-in duration-100 hover:animate-pulse bg-white hover:bg-gray-900 hover:text-white" onClick={ handlePassAway }>
+        <button className="canvasButton" onClick={ handlePassAway }>
          Pass away
         </button>
       </div>

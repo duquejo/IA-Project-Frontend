@@ -1,18 +1,17 @@
-import { applyMiddleware, compose, createStore } from 'redux';
-import rootReducer from '../reducers/index';
-import thunk from 'redux-thunk';
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import storageReducer from '../reducers/storage/storageReducer';
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+export const store = configureStore({
+  reducer: {
+    counter: storageReducer,
   }
-}
+});
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(thunk))
-);
-
-export default store;
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
