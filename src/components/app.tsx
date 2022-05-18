@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { hot } from 'react-hot-loader/root';
 import '../styles.css';
 
@@ -14,4 +14,4 @@ export function _App(): JSX.Element | null {
             <MainContainer />
         </div>
     );
-};
+}

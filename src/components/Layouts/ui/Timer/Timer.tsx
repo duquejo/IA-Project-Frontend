@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useAppSelector } from '../../../../hooks/index';
+import { selectGame } from '../../../../reducers/game/storageGame';
+import { TimerStates } from '../../../../reducers/game/storageGameTypes';
 
 export const Timer = (): JSX.Element | null => {
+
+  const gameState = useAppSelector( selectGame );
 
   const duration = 60;
   const [counter, setCounter] = useState(duration);
@@ -12,14 +17,15 @@ export const Timer = (): JSX.Element | null => {
   }
 
   useEffect(() => {
-    timer.current = setTimeout( () => setTimer(), 1000 );
-    return () => {
-      if( timer.current ) {{
-        clearTimeout( timer.current );
-      }}
+    if( gameState.timer === TimerStates.ACTIVE ) {
+      timer.current = setTimeout( () => setTimer(), 1000 );
+      return () => {
+        if( timer.current ) {{
+          clearTimeout( timer.current );
+        }}
+      }
     }
-
-  }, [ counter ]);
+  }, [gameState, counter]);
 
   const progressBarCalculation = ( count: number ): number => ( ( count / duration ) * 100);
 

@@ -1,18 +1,38 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
+
+// Redux
+import { useAppSelector } from '../../../../hooks/index';
+import { selectGame } from '../../../../reducers/game/storageGame';
 
 type BuilderProps = {
-    letters: string
+    word: string
 };
 
-export const Letters: FC<BuilderProps> = ({ letters }): JSX.Element | null => {
+export const Letters: FC<BuilderProps> = ({ word }): JSX.Element | null => {
+
+  const splittedWord: Array<string> = word.split('');
+
+  const gameState = useAppSelector( selectGame );
+
+  const [letters, setLetters] = useState<Array<string>>(() => {
+    return new Array( splittedWord.length ).fill('_');
+  });
+
+  useEffect(() => {
+      const exists = splittedWord.some( letter => gameState.usedLetters.includes( letter ));
+      if( exists ) {
+        setLetters( () => splittedWord.map( letter => gameState.usedLetters.includes( letter ) ? letter : '_' ));
+      }
+  }, [gameState.usedLetters]);
+  
+
   return (
     <div className="h-24 pb-6 pt-3 px-3 flex items-end gap-2">
     {
-      !! letters.length && letters.split('').map( ( letter: string, index: number ) => (
-        <div key={ `letter-${ index }`} 
-             className="cursor-pointer outline-none rounded-2xl w-full h-full text-center text-4xl font-extrabold bg-white flex justify-center items-center">
-            { letter }
-        </div> 
+      !! letters.length && letters.map(( letter: string, index: number ) => (
+        <div key={ `letter-${ index }`} className="letter">
+          { letter }
+        </div>
       ))
     }
     </div>

@@ -1,20 +1,17 @@
 import React, { useRef, useState } from 'react';
 import CanvasDraw, { CanvasDrawProps } from 'react-canvas-draw';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { selectCount, increment } from '../../reducers/storage/storageReducer';
+import { addLetter, decrementLifes, selectGame } from '../../reducers/game/storageGame';
+import { getRandomLetter } from '../../utils';
 
-// interface ICanvasContainer {
-//   width: number;
-//   height: number;
-// }
 
-export const CanvasContainer: React.FC<any> = (): JSX.Element | null => {
+export const CanvasContainer = (): JSX.Element | null => {
 
-  const currentCanvas = useRef<any>(null);
-  const count = useAppSelector( selectCount );
+  const currentCanvas = useRef<CanvasDraw>(null);
   const dispatch = useAppDispatch();
+  const gameState = useAppSelector( selectGame );
 
-  const [canvas,_] = useState<CanvasDrawProps>({
+  const [canvas] = useState<CanvasDrawProps>({
     canvasWidth: 500,
     canvasHeight: 500,
     brushRadius: 7,
@@ -23,43 +20,54 @@ export const CanvasContainer: React.FC<any> = (): JSX.Element | null => {
   });
 
   const handleEraseCanvas = () => {
-    currentCanvas.current.clear();
+    currentCanvas.current?.clear();
   };
 
   const handleUndoCanvas = () => {
-    currentCanvas.current.undo();
+    currentCanvas.current?.undo();
   };
 
   const handleSendClick = () => {
     console.log('Sent!');
-    dispatch( increment() );
+
+    const letter = getRandomLetter();
+    const { challenge } = gameState;
+
+    /**
+     * Check if is correct.
+     */
+    if( challenge?.includes( letter ) ) {
+      alert('Exists!');
+    } else {
+      alert('Doesn\'t exists');
+      dispatch( decrementLifes() );
+    }
+    
+    dispatch( addLetter( letter ));
   };
 
   const handlePassAway = () => {
-    prompt('Are you sure?','yes');
     // Stop timer
+    prompt('Are you sure?','yes');
   };
 
   return (
     <div className="bg-white w-full m-0 relative">
 
-      {/* @TODO */}
-      <p className="absolute">{ count }</p>
-
       <CanvasDraw { ...canvas } ref={ currentCanvas }/>
       
       <div id="controls" className="bg-slate-50 absolute bottom-0 h-24 pb-6 pt-3 px-3 w-full flex justify-between gap-2">
-        <button className="canvasButton" onClick={ handleEraseCanvas }>
+        <button className="canvasButton hover:bg-red-700" onClick={ handleEraseCanvas }>
           Erase
         </button>
-        <button className="canvasButton" onClick={ handleUndoCanvas }>
+        <button className="canvasButton hover:bg-blue-700" onClick={ handleUndoCanvas }>
           Undo
         </button>
-        <button className="canvasButton" onClick={ handleSendClick }>
+        <button className="canvasButton hover:bg-green-700" onClick={ handleSendClick }>
          Send
         </button>
-        <button className="canvasButton" onClick={ handlePassAway }>
-         Pass away
+        <button className="canvasButton hover:bg-amber-700" onClick={ handlePassAway }>
+         Give up
         </button>
       </div>
     </div>

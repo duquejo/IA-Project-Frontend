@@ -1,8 +1,9 @@
+// import React, { useState, useEffect } from 'react';
 import React, { FC } from 'react';
 
 type BuilderProps = {
     usedLetters: Array<string>
-};
+}
 
 export const UsedLetters: FC<BuilderProps> = ({ usedLetters }) => {
     return (

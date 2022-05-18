@@ -12,6 +12,10 @@ import r_leg from '../../../../svg/hangman/10.svg';
 import l_arm from '../../../../svg/hangman/11.svg';
 import r_arm from '../../../../svg/hangman/12.svg';
 
+// Redux
+import { useAppSelector } from '../../../../hooks/index';
+import { selectGame } from '../../../../reducers/game/storageGame';
+
 interface IHangman {
   src: string;
   visible: boolean;
@@ -19,18 +23,30 @@ interface IHangman {
 
 export const Hangman = (): JSX.Element | null => {
 
-  let characterParts: Array<any> = [];
+  const gameState = useAppSelector( selectGame );
   const [characterBody, setCharacterBody ] = useState<Array<IHangman>>([]);
+  const [attempts, setAttempts] = useState<number>(0);
 
   useEffect(() => {
-    characterParts = [ head, torso, l_leg, r_leg, l_arm, r_arm ];
+
+    const characterParts = [ r_arm, l_arm, r_leg, l_leg, torso, head ];
+    let visibleParts = new Array( characterParts.length ).fill( true );
+
+    if( attempts > 0 ) {
+      visibleParts = visibleParts.map( ( _,index: number ) => {
+        return index < attempts ? false : true;
+      });
+    }
+    
     setCharacterBody( () => 
-      characterParts.map( ( part: string ) => ({
+      characterParts.map( ( part: string, index: number ) => ({
           src: part,
-          visible: false
+          visible: visibleParts[index]
       }))
     );
-  }, []);
+
+    setAttempts( gameState.attempt );
+  }, [gameState.attempt, attempts]);
   
   return (
     <div id="hangman" className="relative h-[300px] w-[300px] col-span-2 m-auto">
@@ -43,7 +59,9 @@ export const Hangman = (): JSX.Element | null => {
       {/* Hangman */}
       {
         characterBody.map( ( part: IHangman, index: number ) => (
-          <img key={ index } className={ `${ index } absolute` } src={ part.src } />
+          <img key={ index } 
+               className={ `${ index } absolute ${ part.visible ? 'visible' : 'hidden' }` }
+               src={ part.src } />
         ))
       }
     </div>
