@@ -35,9 +35,7 @@ export const Hangman = (): JSX.Element | null => {
     let visibleParts = new Array( characterParts.length ).fill( false );
 
     if( attempts > 0 ) {
-      visibleParts = visibleParts.map( ( _,index: number ) => {
-        return index < attempts ? true : false;
-      });
+      visibleParts = visibleParts.map( ( _,index: number ) => index < attempts ? true : false );
     }
     
     setCharacterBody( () => 

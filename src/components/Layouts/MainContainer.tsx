@@ -1,11 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { CanvasContainer } from '../Canvas/CanvasContainer';
 import { Title } from './global';
 import { Clues, Hangman, Letters, Timer, UsedLetters } from './ui';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
-import { start, selectGame } from '../../reducers/game/storageGame';
+import { start as startChallenge, selectGame } from '../../reducers/game/storageGame';
+import { start as startTimer } from '../../reducers/timer/storageTimer';
 
-export const MainContainer = (): JSX.Element | null => {
+import { Letters as SkeletonLetters } from './ui/Skeleton/Letters';
+import { IModalProps, Modal } from './ui/Modal/Modal';
+
+type BuilderProps = {
+  modalProps: IModalProps
+}
+
+export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | null => {
 
   const dispatch = useAppDispatch();
   const gameState = useAppSelector( selectGame );  
@@ -21,7 +29,8 @@ export const MainContainer = (): JSX.Element | null => {
 
     if( ! gameState.challenge ) {
       const challenge = setChallenge();
-      dispatch( start( challenge ) );
+      dispatch( startChallenge( challenge ) );
+      dispatch( startTimer() );
       setWord( challenge );
     }
 
@@ -65,13 +74,15 @@ export const MainContainer = (): JSX.Element | null => {
               <Timer />
 
               {
-                /* Hangman letters */
-                !! word && <Letters word={ word } />
+                /* Hangman letters  */
+                word ? <Letters word={ word } /> : <SkeletonLetters />
               }
             </div>
           </div>
         </div>
       </div>
+
+      <Modal { ...modalProps }/>
     </>
   );
 };

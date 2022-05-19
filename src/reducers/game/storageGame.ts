@@ -3,14 +3,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 /**
  * Store State
  */
-import { GameState, TimerStates } from './storageGameTypes';
+import { GameState } from './storageGameTypes';
 import { RootState } from '../../store/index';
 
 const initialState: GameState = {
     level: 1,
     challenge: null,
     usedLetters: [],
-    timer: TimerStates.PAUSED,
     lifes: 5,
     attempt: 0,
 };
@@ -26,7 +25,6 @@ export const gameSlice = createSlice({
        * @param action 
        */
       start: ( state, action: PayloadAction<string> ) => {
-        state.timer = TimerStates.ACTIVE,
         state.challenge = action.payload
       },
 
@@ -44,7 +42,6 @@ export const gameSlice = createSlice({
        * @param state 
        */
       timeUp: (state) => {
-        state.timer = TimerStates.PAUSED;
         state.attempt -= 1;
       },
 

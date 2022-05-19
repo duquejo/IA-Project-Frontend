@@ -27,7 +27,7 @@ export const Letters: FC<BuilderProps> = ({ word }): JSX.Element | null => {
   
   /**
    * @TODO Separar lógica del timer de la del juego
-   * @TODO borrar tablero después de cada envío
+   * @TODO borrar tablero después de cada envío 
    */
 
   return (

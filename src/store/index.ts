@@ -1,12 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-
-import storageGame from '../reducers/game/storageGame';
-import storageReducer from '../reducers/storage/storageReducer';
+import { storageReducer, storageGame, storageTimer } from '../reducers';
 
 export const store = configureStore({
   reducer: {
     counter: storageReducer,
     game: storageGame,
+    timer: storageTimer,
   }
 });
 

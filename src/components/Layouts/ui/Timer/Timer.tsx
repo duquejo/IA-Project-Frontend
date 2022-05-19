@@ -1,23 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useAppSelector } from '../../../../hooks/index';
-import { selectGame } from '../../../../reducers/game/storageGame';
-import { TimerStates } from '../../../../reducers/game/storageGameTypes';
+
+// Redux
+import { useAppSelector, useAppDispatch } from '../../../../hooks/index';
+import { selectTimer, stop } from '../../../../reducers/timer/storageTimer';
+import { TimerValues } from '../../../../reducers/timer/storageTimerTypes';
 
 export const Timer = (): JSX.Element | null => {
 
-  const gameState = useAppSelector( selectGame );
+  const timerState = useAppSelector( selectTimer );
+  const dispatch = useAppDispatch();
 
-  const duration = 60;
+  const duration = 10;
   const [counter, setCounter] = useState(duration);
   const timer = useRef<any>();
   const setTimer = () => {
-    if( counter > 0 ) {
-      setCounter( counter - 1 );
+    if( counter == 1 ) {
+      dispatch( stop() );
     }
+    setCounter( counter - 1 );
   }
 
   useEffect(() => {
-    if( gameState.timer === TimerStates.ACTIVE ) {
+    if( timerState.timer === TimerValues.ACTIVE ) {
       timer.current = setTimeout( () => setTimer(), 1000 );
       return () => {
         if( timer.current ) {{
@@ -25,14 +29,13 @@ export const Timer = (): JSX.Element | null => {
         }}
       }
     }
-  }, [gameState, counter]);
+  }, [timerState, counter]); 
 
   const progressBarCalculation = ( count: number ): number => ( ( count / duration ) * 100);
 
   return (
     <div className="w-full bg-gray-200 cursor-pointer">
-      <div className="timer" style={{ width: `${ progressBarCalculation( counter ) }%` }}
-      >
+      <div className="timer" style={{ width: `${ progressBarCalculation( counter ) }%` }}>
         { counter } seconds
       </div>
     </div>
