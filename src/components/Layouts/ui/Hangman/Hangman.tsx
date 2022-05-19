@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
-import pole1 from '../../../../svg/hangman/0.svg';
-import pole2 from '../../../../svg/hangman/1.svg';
-import pole3 from '../../../../svg/hangman/2.svg';
+
+{/* https://boxy-svg.com/app/disk:tGMnFlCFCi */}
+
+// Pole imports
+import pole from '../../../../svg/hangman/pole.svg';
 
 // Body imports
-import head from '../../../../svg/hangman/7.svg';
-import torso from '../../../../svg/hangman/8.svg';
-import l_leg from '../../../../svg/hangman/9.svg';
-import r_leg from '../../../../svg/hangman/10.svg';
-import l_arm from '../../../../svg/hangman/11.svg';
-import r_arm from '../../../../svg/hangman/12.svg';
+import l_leg from '../../../../svg/hangman/l_leg.svg';
+import r_leg from '../../../../svg/hangman/r_leg.svg';
+import l_arm from '../../../../svg/hangman/l_arm.svg';
+import r_arm from '../../../../svg/hangman/r_arm.svg';
+import head from '../../../../svg/hangman/head.svg';
+import torso from '../../../../svg/hangman/torso.svg';
 
 // Redux
 import { useAppSelector } from '../../../../hooks/index';
@@ -29,12 +31,12 @@ export const Hangman = (): JSX.Element | null => {
 
   useEffect(() => {
 
-    const characterParts = [ r_arm, l_arm, r_leg, l_leg, torso, head ];
-    let visibleParts = new Array( characterParts.length ).fill( true );
+    const characterParts = [ head, torso, r_arm, l_arm, r_leg, l_leg  ];
+    let visibleParts = new Array( characterParts.length ).fill( false );
 
     if( attempts > 0 ) {
       visibleParts = visibleParts.map( ( _,index: number ) => {
-        return index < attempts ? false : true;
+        return index < attempts ? true : false;
       });
     }
     
@@ -52,9 +54,7 @@ export const Hangman = (): JSX.Element | null => {
     <div id="hangman" className="relative h-[300px] w-[300px] col-span-2 m-auto">
 
       {/* Pole */}
-      <img className="pole absolute" src={ pole1 } />
-      <img className="pole absolute" src={ pole2 } />
-      <img className="pole absolute" src={ pole3 } />
+      <img className="pole absolute" src={ pole } />
 
       {/* Hangman */}
       {

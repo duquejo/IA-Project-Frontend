@@ -36,14 +36,11 @@ export const CanvasContainer = (): JSX.Element | null => {
     /**
      * Check if is correct.
      */
-    if( challenge?.includes( letter ) ) {
-      alert('Exists!');
-    } else {
-      alert('Doesn\'t exists');
+    if( ! challenge?.includes( letter ) ) {
       dispatch( decrementLifes() );
     }
     
-    dispatch( addLetter( letter ));
+    dispatch( addLetter( letter ) );
   };
 
   const handlePassAway = () => {
