@@ -21,9 +21,20 @@ import { selectGame } from '../../../../reducers/game/storageGame';
 interface IHangman {
   src: string;
   visible: boolean;
+  animation: string;
 }
 
 export const Hangman = (): JSX.Element | null => {
+
+  const characterParts = [ head, torso, r_arm, l_arm, r_leg, l_leg  ];
+  const characterPartsAnimation = [
+    'animate-wiggle', // Head
+    'animate-wiggle-soft', // Torso
+    'animate-wiggle-hard', // Right arm
+    'animate-wiggle-hard', // Left arm
+    'animate-wiggle-soft', // Right leg
+    'animate-wiggle-soft', // Left leg
+  ];
 
   const gameState = useAppSelector( selectGame );
   const [characterBody, setCharacterBody ] = useState<Array<IHangman>>([]);
@@ -31,7 +42,6 @@ export const Hangman = (): JSX.Element | null => {
 
   useEffect(() => {
 
-    const characterParts = [ head, torso, r_arm, l_arm, r_leg, l_leg  ];
     let visibleParts = new Array( characterParts.length ).fill( false );
 
     if( attempts > 0 ) {
@@ -41,7 +51,8 @@ export const Hangman = (): JSX.Element | null => {
     setCharacterBody( () => 
       characterParts.map( ( part: string, index: number ) => ({
           src: part,
-          visible: visibleParts[index]
+          visible: visibleParts[index],
+          animation: characterPartsAnimation[index],
       }))
     );
 
@@ -58,7 +69,7 @@ export const Hangman = (): JSX.Element | null => {
       {
         characterBody.map( ( part: IHangman, index: number ) => (
           <img key={ index } 
-               className={ `${ index } absolute ${ part.visible ? 'visible' : 'hidden' }` }
+               className={ `${ index } absolute ${ part.visible ? 'visible' : 'hidden' } ${ part.animation }` }
                src={ part.src } />
         ))
       }

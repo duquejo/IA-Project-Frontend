@@ -23,6 +23,9 @@
   .canvasButton {
     @apply text-xl font-bold m-auto w-full h-full rounded-2xl transition-all ease-in duration-100 hover:animate-pulse bg-white hover:text-white;
   }
+  .modalButton {
+    @apply text-lg font-bold mt-4 w-full p-2 rounded-2xl transition-all ease-in duration-100 hover:animate-pulse bg-cyan-400 hover:text-white;
+  }
   .letter {
     @apply cursor-pointer outline-none rounded-2xl w-full h-full text-center text-4xl font-extrabold bg-white flex justify-center items-center;
   }

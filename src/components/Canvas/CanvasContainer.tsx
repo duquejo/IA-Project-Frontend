@@ -33,9 +33,16 @@ export const CanvasContainer = (): JSX.Element | null => {
     const letter = getRandomLetter();
     const { challenge } = gameState;
 
+    
     /**
      * Check if is correct.
      */
+    console.log({ 
+      letter,
+      includes: challenge?.includes( letter ),
+      challenge
+    });
+    
     if( ! challenge?.includes( letter ) ) {
       dispatch( decrementLifes() );
     }

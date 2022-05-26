@@ -10,7 +10,7 @@ export const Timer = (): JSX.Element | null => {
   const timerState = useAppSelector( selectTimer );
   const dispatch = useAppDispatch();
 
-  const duration = 10;
+  const duration = 60;
   const [counter, setCounter] = useState(duration);
   const timer = useRef<any>();
   const setTimer = () => {

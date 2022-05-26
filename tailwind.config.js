@@ -10,13 +10,29 @@ module.exports = {
       },
       animation: {
         'background-animate': 'background-color 10s ease infinite',
-      },  
+        'fade-in': 'fade-in 1s ease-in',
+        'wiggle': 'wiggle 3s linear infinite',
+        'wiggle-soft': 'wiggle-soft 5s linear infinite',
+        'wiggle-hard': 'wiggle 1s linear infinite',
+      },
       keyframes: {
         'background-color': {
           '0%'  : {},
           '100%': { 'background-position': '0% 50%' },
           '50%' : { 'background-position': '100% 0%' },
         },
+        'fade-in': {
+          '0%'  : { 'opacity' : '0' },
+          '100%': { 'opacity' : '1' },
+        },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
+        'wiggle-soft': {
+          '0%, 100%': { transform: 'rotate(-1deg)' },
+          '50%': { transform: 'rotate(1deg)' },
+        }
       },
     },
   },
