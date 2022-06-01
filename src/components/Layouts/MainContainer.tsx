@@ -55,7 +55,7 @@ export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | n
           {/* UI */}
           <div className="bg-gray-50 col-span-1 border-1 flex flex-col justify-end">
 
-            <div className="hangman-container grid grid-cols-3 px-3 pt-3">
+            <div className="grid grid-cols-3 px-3 pt-3">
 
               {/* Hangman */}
               <Hangman />

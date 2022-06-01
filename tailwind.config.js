@@ -10,10 +10,11 @@ module.exports = {
       },
       animation: {
         'background-animate': 'background-color 10s ease infinite',
-        'fade-in': 'fade-in 1s ease-in',
+        'fade-in': 'fade-in 0.3s ease-in',
         'wiggle': 'wiggle 3s linear infinite',
         'wiggle-soft': 'wiggle-soft 5s linear infinite',
         'wiggle-hard': 'wiggle 1s linear infinite',
+        'slide-l-r': 'slide-l-r 0.5s ease',
       },
       keyframes: {
         'background-color': {
@@ -22,8 +23,18 @@ module.exports = {
           '50%' : { 'background-position': '100% 0%' },
         },
         'fade-in': {
-          '0%'  : { 'opacity' : '0' },
-          '100%': { 'opacity' : '1' },
+          '0%'  : { opacity : '0' },
+          '100%': { opacity : '1' },
+        },
+        'slide-l-r': {
+          '0%': {
+            transform: 'translateX(-100%)',
+            opacity: '0.7',
+          },
+          '100%': {
+            transform: 'translateX(0%)',
+            opacity: '1'
+          },
         },
         wiggle: {
           '0%, 100%': { transform: 'rotate(-3deg)' },
@@ -36,5 +47,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-animation-delay')
+  ],
 }

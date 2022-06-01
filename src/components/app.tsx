@@ -8,6 +8,7 @@ import { MainContainer } from './Layouts/MainContainer';
 import { IModalProps } from './Layouts/ui/Modal/Modal';
 import { useAppSelector } from '../hooks/index';
 import { selectTimer } from '../reducers/timer/storageTimer';
+import { TimerValues } from '../reducers/timer/storageTimerTypes';
 
 
 export const App = hot(_App);
@@ -17,8 +18,8 @@ export function _App(): JSX.Element | null {
 
     const modalProps: IModalProps = {
         open: false,
-        content: 'You lost, just trust!',
-        title: 'Nice try!'
+        content: 'Nice try!',
+        title: 'You lost!'
     };
     
     const [modalConfig, setModalConfig] = useState<IModalProps>(modalProps);
@@ -29,7 +30,7 @@ export function _App(): JSX.Element | null {
 
     useEffect(() => {
         console.log( timerState );
-        if( timerState.timer === 'PAUSED' ) {
+        if( timerState.timer === TimerValues.PAUSED ) {
             setModalConfig({
                 ...modalProps,
                 open: true,

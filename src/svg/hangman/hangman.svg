@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <svg viewBox="81.647 60.743 371.347 360" xmlns="http://www.w3.org/2000/svg">
-    <path d="M163.652 86.634l2.192 307.599" fill="#d8d8d8" stroke="#000" stroke-miterlimit="1" stroke-linecap="round" stroke-linejoin="round" stroke-width="41"/>
-    <path d="M125.862 120.09l245.999-.609" fill="#d8d8d8" stroke="#000" stroke-miterlimit="1" stroke-linecap="round" stroke-linejoin="round" stroke-width="44"/>
-    <path d="M319.689 112.367v41.55" fill="#d8d8d8" stroke="#000" stroke-width="22" stroke-linecap="round"/>
-    <path d="M322.065 251.688c0 27.676-6.826 51.856-6.826 80.679" fill="#d8d8d8" stroke="#000" stroke-width="14"/>
-    <path d="M311.872 325.44c-27.544 0-52.196 32.812-52.196 58.247M319.962 325.441c31.786 0 40.722 28.05 40.722 56.559" stroke="#000" stroke-width="13" stroke-linecap="round" fill="rgba(216,216,216,0)"/>
-    <path d="M325.871 263.816c14.719 0 32.273 12.856 40.52 21.104 2.411 2.411 8.37 11.818 10.13 11.818M315.24 265.56c-8.651 11.907-29.37 18.553-40.89 20.377-3.369.533-14.482-.175-15.516 1.249" fill="#d8d8d8" stroke="#000" stroke-width="14" stroke-linecap="round"/><ellipse cx="319.7" cy="214.16" rx="47.181" ry="43.811" stroke-linecap="round" paint-order="fill" stroke="#000" stroke-width="19" fill="rgba(216,216,216,0)"/>
+  <path d="M163.652 86.634l2.192 307.599" fill="#d8d8d8" stroke="#000" stroke-miterlimit="1" stroke-linecap="round" stroke-linejoin="round" stroke-width="41"/>
+  <path d="M125.862 120.09l245.999-.609" fill="#d8d8d8" stroke="#000" stroke-miterlimit="1" stroke-linecap="round" stroke-linejoin="round" stroke-width="44"/>
+  <path d="M319.689 112.367v41.55" fill="#d8d8d8" stroke="#000" stroke-width="22" stroke-linecap="round"/>
+  <path d="M322.065 251.688c0 27.676-6.826 51.856-6.826 80.679" fill="#d8d8d8" stroke="#000" stroke-width="14"/>
+  <path d="M311.872 325.44c-27.544 0-52.196 32.812-52.196 58.247M319.962 325.441c31.786 0 40.722 28.05 40.722 56.559" stroke="#000" stroke-width="13" stroke-linecap="round" fill="rgba(216,216,216,0)"/>
+  <path d="M 325.871 268.782 C 340.59 268.782 358.144 281.638 366.391 289.886 C 368.802 292.297 374.761 301.704 376.521 301.704 M 315.24 270.526 C 306.589 282.433 285.87 289.079 274.35 290.903 C 270.981 291.436 259.868 290.728 258.834 292.152" fill="#d8d8d8" stroke="#000" stroke-width="14" stroke-linecap="round"/>
+  <ellipse cx="319.7" cy="214.16" rx="47.181" ry="43.811" stroke-linecap="round" paint-order="fill" stroke="#000" stroke-width="19" fill="rgba(216,216,216,0)"/>
+  <line style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0); stroke-width: 18px; stroke-linecap: round;" x1="237.647" y1="268.053" x2="401.923" y2="267.226"/>
 </svg>
