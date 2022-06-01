@@ -7,7 +7,7 @@ import { TimerState, TimerValues } from './storageTimerTypes';
 import { RootState } from '../../store/index';
 
 const initialState: TimerState = {
-    timer: TimerValues.ACTIVE,
+    timer: TimerValues.ACTIVE
 };
 
 export const timerSlice = createSlice({
@@ -20,7 +20,7 @@ export const timerSlice = createSlice({
        * @param state
        */
       start: (state) => {
-        state.timer = TimerValues.ACTIVE;
+        state.timer = initialState.timer;
       },
 
       /**
@@ -29,6 +29,14 @@ export const timerSlice = createSlice({
        */
       stop: (state) => {
         state.timer = TimerValues.PAUSED;
+      },
+
+      /**
+       * Reset timer
+       * @param state 
+       */
+      reset: (state) => {
+        state.timer = TimerValues.RESET;
       },
     },
 });
@@ -40,6 +48,6 @@ export const timerSlice = createSlice({
  */
 export const selectTimer = (state: RootState) => state.timer;
 
-export const { start, stop } = timerSlice.actions;
+export const { start, stop, reset } = timerSlice.actions;
 
 export default timerSlice.reducer;

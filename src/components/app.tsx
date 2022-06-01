@@ -19,7 +19,8 @@ export function _App(): JSX.Element | null {
     const modalProps: IModalProps = {
         open: false,
         content: 'Nice try!',
-        title: 'You lost!'
+        title: 'You lost!',
+        btnText: 'Try again!',
     };
     
     const [modalConfig, setModalConfig] = useState<IModalProps>(modalProps);
@@ -29,7 +30,6 @@ export function _App(): JSX.Element | null {
     };
 
     useEffect(() => {
-        console.log( timerState );
         if( timerState.timer === TimerValues.PAUSED ) {
             setModalConfig({
                 ...modalProps,
@@ -37,7 +37,6 @@ export function _App(): JSX.Element | null {
             });
         }
     }, [ timerState.timer ]);
-    
     
     return (
         <div className="h-screen flex flex-col justify-center items-center bg-gradient-to-r from-cyan-300 via-blue-400 to-sky-500 bg-400% animate-background-animate">

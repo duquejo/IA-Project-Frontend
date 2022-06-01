@@ -38,20 +38,28 @@ export const gameSlice = createSlice({
       },
 
       /**
-       * Time is Up!
+       * Decrement life
        * @param state 
        */
-      timeUp: (state) => {
-        state.attempt -= 1;
+      minusLife: (state) => {
+        state.lifes -= 1;
       },
 
       /**
-       * Decrement Lifes
+       * Add attempt
        * @param state 
        */
-      decrementLifes: (state) => {
+      addAttempt: (state) => {
         state.attempt += 1;
       },
+
+      /**
+       * Reset attempt
+       * @param state
+       */
+      resetAttempt: (state) => {
+        state.attempt = initialState.attempt;
+      }
     },
 });
 
@@ -62,6 +70,6 @@ export const gameSlice = createSlice({
  */
 export const selectGame = (state: RootState) => state.game;
 
-export const { start, addLetter, timeUp, decrementLifes } = gameSlice.actions;
+export const { start, addLetter, minusLife, addAttempt, resetAttempt } = gameSlice.actions;
 
 export default gameSlice.reducer;

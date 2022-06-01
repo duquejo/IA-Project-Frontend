@@ -6,6 +6,7 @@
 export enum TimerValues {
     ACTIVE = 'ACTIVE',
     PAUSED = 'PAUSED',
+    RESET = 'RESET',
 }
 
 export interface TimerState {

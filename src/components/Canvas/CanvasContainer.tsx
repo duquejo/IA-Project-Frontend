@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import CanvasDraw, { CanvasDrawProps } from 'react-canvas-draw';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { addLetter, decrementLifes, selectGame } from '../../reducers/game/storageGame';
+import { addLetter, addAttempt, selectGame } from '../../reducers/game/storageGame';
 import { getRandomLetter } from '../../utils';
 
 
@@ -44,7 +44,7 @@ export const CanvasContainer = (): JSX.Element | null => {
     });
     
     if( ! challenge?.includes( letter ) ) {
-      dispatch( decrementLifes() );
+      dispatch( addAttempt() );
     }
     
     dispatch( addLetter( letter ) );
