@@ -16,26 +16,27 @@ export function _App(): JSX.Element | null {
 
     const timerState = useAppSelector( selectTimer );
 
-    const modalProps: IModalProps = {
-        open: false,
-        content: 'Nice try!',
-        title: 'You lost!',
-        btnText: 'Try again!',
-    };
-    
+    const modalProps: IModalProps = {};
     const [modalConfig, setModalConfig] = useState<IModalProps>(modalProps);
     
     const mainContainerProps = {
         modalProps: modalConfig,
     };
 
-    useEffect(() => {
-        if( timerState.timer === TimerValues.PAUSED ) {
-            setModalConfig({
-                ...modalProps,
-                open: true,
-            });
+    const activateModalByState = ( state: TimerValues ): void => {
+        switch ( state ) {
+            case TimerValues.PAUSED:
+                return setModalConfig({ open: true });
+            case TimerValues.RESET:
+                return setModalConfig({ open: false });
         }
+    };
+
+    useEffect(() => {
+        /**
+         * Modal handler by TimerState tag.
+         */
+        activateModalByState( timerState.timer );
     }, [ timerState.timer ]);
     
     return (

@@ -42,7 +42,10 @@ export const hangmanConfig = {
 
 export const Hangman = (): JSX.Element | null => {
 
+  let visibleParts = new Array( hangmanConfig.characterParts.length ).fill( false );
+
   const gameState = useAppSelector( selectGame );
+
   const dispatch = useAppDispatch();
 
   const [characterBody, setCharacterBody ] = useState<Array<IHangman>>([]);
@@ -51,30 +54,38 @@ export const Hangman = (): JSX.Element | null => {
   const hangmanContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    
-    if( gameState.attempt > 0 ) {
 
-      let visibleParts = new Array( hangmanConfig.characterParts.length ).fill( false );
-  
-      if( attempts > 0 ) {
-        visibleParts = visibleParts.map( ( _,index: number ) => index < attempts ? true : false );
-      }
-  
-      if( attempts > hangmanConfig.characterParts.length - 1) {
-        dispatch( stop() );
-        hangmanContainer.current?.classList.add('dead');
-      }
-      
-      setCharacterBody( () => 
-      hangmanConfig.characterParts.map( ( part: string, index: number ) => ({
-            src: part,
-            visible: visibleParts[index],
-            animation: hangmanConfig.characterPartsAnimation[index],
-        }))
-      );
-  
-      setAttempts( gameState.attempt );
+    /**
+     * First attempt
+     */
+    if( attempts == 0 ) {
+      hangmanContainer.current?.classList.remove('dead');
     }
+
+    /**
+     * Parts reveal
+     */
+    if( attempts > 0 ) {
+      visibleParts = visibleParts.map( ( _,index: number ) => index < attempts ? true : false );
+    }
+
+    /**
+     * Dead
+     */
+    if( attempts > hangmanConfig.characterParts.length - 1 ) {
+      dispatch( stop() );
+      hangmanContainer.current?.classList.add('dead');
+    }
+    
+    setCharacterBody( () => 
+      hangmanConfig.characterParts.map( ( part: string, index: number ) => ({
+          src: part,
+          visible: visibleParts[index],
+          animation: hangmanConfig.characterPartsAnimation[index],
+      }))
+    );
+
+    setAttempts( gameState.attempt );
 
   }, [gameState.attempt, attempts]);
   

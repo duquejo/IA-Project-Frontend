@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import CanvasDraw, { CanvasDrawProps } from 'react-canvas-draw';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { addLetter, addAttempt, selectGame } from '../../reducers/game/storageGame';
+import { stop } from '../../reducers/timer/storageTimer';
 import { getRandomLetter } from '../../utils';
 
 
@@ -28,14 +29,11 @@ export const CanvasContainer = (): JSX.Element | null => {
   };
 
   const handleSendClick = () => {
-    console.log('Sent!');
-
     const letter = getRandomLetter();
     const { challenge } = gameState;
-
     
     /**
-     * Check if is correct.
+     * Check if its correct.
      */
     console.log({ 
       letter,
@@ -48,11 +46,15 @@ export const CanvasContainer = (): JSX.Element | null => {
     }
     
     dispatch( addLetter( letter ) );
+
+    // Clear
+    currentCanvas.current?.clear();
   };
 
   const handlePassAway = () => {
     // Stop timer
-    prompt('Are you sure?','yes');
+    prompt('Are you sure?');
+    dispatch( stop() );
   };
 
   return (

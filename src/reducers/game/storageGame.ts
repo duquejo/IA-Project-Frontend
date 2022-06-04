@@ -38,6 +38,14 @@ export const gameSlice = createSlice({
       },
 
       /**
+       * Reset Used Letters
+       * @param state 
+       */
+      resetLetters: (state) => {
+        state.usedLetters = [];
+      },
+
+      /**
        * Decrement life
        * @param state 
        */
@@ -70,6 +78,6 @@ export const gameSlice = createSlice({
  */
 export const selectGame = (state: RootState) => state.game;
 
-export const { start, addLetter, minusLife, addAttempt, resetAttempt } = gameSlice.actions;
+export const { start, addLetter, minusLife, addAttempt, resetAttempt, resetLetters } = gameSlice.actions;
 
 export default gameSlice.reducer;

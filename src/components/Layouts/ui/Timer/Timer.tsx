@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, FC } from 'react';
 
 // Redux
 import { useAppSelector, useAppDispatch } from '../../../../hooks';
 import { selectTimer, stop, start } from '../../../../reducers/timer/storageTimer';
 import { TimerValues } from '../../../../reducers/timer/storageTimerTypes';
 
-export const Timer = (): JSX.Element | null => {
+export const Timer: FC = (): JSX.Element | null => {
 
   const timerState = useAppSelector( selectTimer );
   const dispatch = useAppDispatch();
 
-  const duration = 5;
+  const duration = 60;
   const [counter, setCounter] = useState<number>(duration);
 
   const timer = useRef<any>();

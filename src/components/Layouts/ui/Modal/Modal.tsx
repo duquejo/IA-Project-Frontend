@@ -2,17 +2,22 @@ import React, { FC } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../../../../hooks';
 import { selectTimer, reset } from '../../../../reducers/timer/storageTimer';
-import { minusLife, resetAttempt } from '../../../../reducers/game/storageGame';
+import { minusLife, resetAttempt, resetLetters, start as startChallenge } from '../../../../reducers/game/storageGame';
 import { TimerValues } from '../../../../reducers/timer/storageTimerTypes';
 
 export interface IModalProps {
-    open: boolean,
-    content: string,
-    title: string,
-    btnText: string,
+    open?: boolean,
+    content?: string,
+    title?: string,
+    btnText?: string,
 }
 
-export const Modal: FC<IModalProps> = ({ open, content, title, btnText }): JSX.Element | null => {
+export const Modal: FC<IModalProps> = ({
+        open = false,
+        content = 'Nice try!', 
+        title = 'You lost', 
+        btnText = 'Try again',
+    }): JSX.Element | null => {
 
     const timerState = useAppSelector( selectTimer );
     const dispatch = useAppDispatch();
@@ -22,11 +27,9 @@ export const Modal: FC<IModalProps> = ({ open, content, title, btnText }): JSX.E
             dispatch( reset() );
             dispatch( minusLife() );
             dispatch( resetAttempt() );
+            dispatch( startChallenge( '' ) );
+            dispatch( resetLetters() );
         }
-
-        /**
-         * @TODO: Continuar con la lógica de reseteo de vidas
-         */
     };
 
     return open ? (

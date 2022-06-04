@@ -9,6 +9,8 @@ import { start as startTimer } from '../../reducers/timer/storageTimer';
 import { Letters as SkeletonLetters } from './ui/Skeleton/Letters';
 import { IModalProps, Modal } from './ui/Modal/Modal';
 
+import { setChallenge } from '../../utils';
+
 type BuilderProps = {
   modalProps: IModalProps
 }
@@ -18,17 +20,32 @@ export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | n
   const dispatch = useAppDispatch();
   const gameState = useAppSelector( selectGame );  
   const [word, setWord] = useState<string|null>(null);
+
+  const [usedWord, setUsedWord] = useState<Array<string>>([]);
   const [usedLetters, setUsedLetters] = useState<Array<string>>([]);
 
-  const setChallenge = () => {
-    const words = [ 'stunning', 'knowledge', 'paralyzing', 'maintenance', 'wood', 'better' ];
-    return words[ Math.floor(Math.random() * words.length) ].toLocaleUpperCase();
+  /**
+   * Exclude repeated words.
+   */  
+  const excludeRepeatedWords = (): string => {
+    let word = '';
+    let unique = false;
+    while( ! unique ) {
+      word = setChallenge( gameState.level );
+      if( ! usedWord.includes( word ) ) {
+        setUsedWord([ ...usedWord, word ]);
+        unique = true;
+      }
+    }
+    return word;
   };
 
   useEffect( () => {
 
     if( ! gameState.challenge ) {
-      const challenge = setChallenge();
+
+      const challenge = excludeRepeatedWords();
+
       dispatch( startChallenge( challenge ) );
       dispatch( startTimer() );
       setWord( challenge );
@@ -38,7 +55,7 @@ export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | n
       setUsedLetters( gameState.usedLetters );
     }
 
-  }, [gameState] );
+  }, [word, gameState.challenge, gameState.usedLetters] );
 
   return (
     <>
@@ -75,7 +92,7 @@ export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | n
 
               {
                 /* Hangman letters  */
-                word ? <Letters word={ word } /> : <SkeletonLetters />
+                word ? <Letters/> : <SkeletonLetters />
               }
             </div>
           </div>
