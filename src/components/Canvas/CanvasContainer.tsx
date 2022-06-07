@@ -3,7 +3,6 @@ import CanvasDraw, { CanvasDrawProps } from 'react-canvas-draw';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import { addLetter, addAttempt, selectGame } from '../../reducers/game/storageGame';
 import { stop } from '../../reducers/timer/storageTimer';
-import { getRandomLetter } from '../../utils';
 
 
 export const CanvasContainer = (): JSX.Element | null => {
@@ -29,8 +28,11 @@ export const CanvasContainer = (): JSX.Element | null => {
   };
 
   const handleSendClick = () => {
-    const letter = getRandomLetter();
-    const { challenge } = gameState;
+    // const letter = getRandomLetter();
+    let letter = prompt('Type a letter' )?.toUpperCase();
+    if( ! letter ) letter = '';
+
+    const { challenge, usedLetters } = gameState;
     
     /**
      * Check if its correct.
@@ -43,8 +45,22 @@ export const CanvasContainer = (): JSX.Element | null => {
     
     if( ! challenge?.includes( letter ) ) {
       dispatch( addAttempt() );
+    } else {
+
+      console.log( usedLetters );
+      let equality = 0;
+      const splittedChallenge = challenge.split('');
+      splittedChallenge.forEach( ( challengeLetter: string ) => {
+        if( [ letter, ...usedLetters ].includes( challengeLetter ) ) {
+          equality++;
+        }
+      });
+
+      if( equality === splittedChallenge.length ) {
+        dispatch( stop() );
+      }
     }
-    
+
     dispatch( addLetter( letter ) );
 
     // Clear
