@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import CanvasDraw, { CanvasDrawProps } from 'react-canvas-draw';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { addLetter, addAttempt, selectGame } from '../../reducers/game/storageGame';
+import { addLetter, addAttempt, selectGame, addLevel } from '../../reducers/game/storageGame';
 import { stop } from '../../reducers/timer/storageTimer';
 
 
@@ -58,6 +58,8 @@ export const CanvasContainer = (): JSX.Element | null => {
 
       if( equality === splittedChallenge.length ) {
         dispatch( stop() );
+        dispatch( addLevel() );
+        console.log('You win!');
       }
     }
 

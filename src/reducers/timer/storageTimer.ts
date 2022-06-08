@@ -27,12 +27,7 @@ export const timerSlice = createSlice({
        * Stop timer
        * @param state 
        */
-      stop: (state, action: PayloadAction<boolean> ) => {
-        if( ! action.payload ) {
-          /**
-           * @TODO: Añadir estado de victoria
-           */
-        }
+      stop: (state) => {
         state.timer = TimerValues.PAUSED;
 
       },
