@@ -49,9 +49,9 @@ export const setChallenge = ( level: number ) => {
     'availability',
   ];
   
-  if( level <= 10 ) {
+  if( level <= 5 ) {
     wordsSet = words1;
-  } else if ( level > 10 && level <= 20 ) {
+  } else if ( level > 5 && level <= 10 ) {
     wordsSet = words2;
   } else {
     wordsSet = words3;

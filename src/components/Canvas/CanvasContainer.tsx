@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
 import CanvasDraw, { CanvasDrawProps } from 'react-canvas-draw';
 import { useAppSelector, useAppDispatch } from '../../hooks';
-import { addLetter, addAttempt, selectGame, addLevel } from '../../reducers/game/storageGame';
+import { addLetter, addAttempt, selectGame, addLevel, setModalStatus } from '../../reducers/game/storageGame';
+import { ModalStatuses } from '../../reducers/game/storageGameTypes';
 import { stop } from '../../reducers/timer/storageTimer';
 
 
@@ -40,14 +41,21 @@ export const CanvasContainer = (): JSX.Element | null => {
     console.log({ 
       letter,
       includes: challenge?.includes( letter ),
+      exists: challenge?.includes( letter ) && usedLetters.includes( letter ),
       challenge
     });
     
-    if( ! challenge?.includes( letter ) ) {
+    /**
+     * If isn't into the challenge or If was added as a successful value and is inserted again.
+     */
+    if( ! challenge?.includes( letter ) || challenge?.includes( letter ) && usedLetters.includes( letter ) ) {
       dispatch( addAttempt() );
+      dispatch( setModalStatus( gameState.lifes >= 1 ? ModalStatuses.LOSE : ModalStatuses.GAMEOVER ) );
     } else {
 
-      console.log( usedLetters );
+      /**
+       * Successful letter, add it.
+       */
       let equality = 0;
       const splittedChallenge = challenge.split('');
       splittedChallenge.forEach( ( challengeLetter: string ) => {
@@ -59,6 +67,7 @@ export const CanvasContainer = (): JSX.Element | null => {
       if( equality === splittedChallenge.length ) {
         dispatch( stop() );
         dispatch( addLevel() );
+        dispatch( setModalStatus( ModalStatuses.WIN ) );
         console.log('You win!');
       }
     }
@@ -73,6 +82,7 @@ export const CanvasContainer = (): JSX.Element | null => {
     // Stop timer
     prompt('Are you sure?');
     dispatch( stop() );
+    dispatch( setModalStatus( ModalStatuses.LOSE ) );
   };
 
   return (

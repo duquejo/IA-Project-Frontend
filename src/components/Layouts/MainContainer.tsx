@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { CanvasContainer } from '../Canvas/CanvasContainer';
 import { Title } from './global';
-import { Clues, Hangman, Letters, Timer, UsedLetters } from './ui';
+import { Clues, Hangman, Letters, Timer, UsedLetters, User } from './ui';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import { start as startChallenge, selectGame } from '../../reducers/game/storageGame';
 import { start as startTimer } from '../../reducers/timer/storageTimer';
@@ -63,8 +63,8 @@ export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | n
       {/* Title */}
       <Title />
 
-      <div className="max-w-screen-lg rounded-xl shadow-xl overflow-hidden flex align-center justify-center">
-        <div className="grid grid-flow-row-dense grid-cols-2">
+      <div className="max-w-screen-lg flex align-center justify-center relative">
+        <div className="grid grid-flow-row-dense grid-cols-2 rounded-xl overflow-hidden shadow-xl">
 
           {/* CanvasContainer */}
           <CanvasContainer/>
@@ -95,8 +95,12 @@ export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | n
                 word ? <Letters/> : <SkeletonLetters />
               }
             </div>
+
           </div>
         </div>
+
+        {/* User-UI */}
+        <User/>
       </div>
 
       <Modal { ...modalProps }/>

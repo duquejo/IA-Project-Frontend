@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 /**
  * Store State
@@ -29,7 +29,6 @@ export const timerSlice = createSlice({
        */
       stop: (state) => {
         state.timer = TimerValues.PAUSED;
-
       },
 
       /**

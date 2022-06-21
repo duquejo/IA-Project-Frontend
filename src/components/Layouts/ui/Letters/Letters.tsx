@@ -16,8 +16,8 @@ export const Letters: FC = (): JSX.Element | null => {
         return new Array( splittedWord.length ).fill('_');
       });
 
-      const exists = splittedWord.some( letter => gameState.usedLetters.includes( letter ));
-      if( exists ) {
+      const isValid = splittedWord.some( letter => gameState.usedLetters.includes( letter ));
+      if( isValid ) {
         setLetters( () => splittedWord.map( letter => gameState.usedLetters.includes( letter ) ? letter : '_' ));
       }
     }
