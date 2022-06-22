@@ -64,7 +64,7 @@ export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | n
       <Title />
 
       <div className="max-w-screen-lg flex align-center justify-center relative">
-        <div className="grid grid-flow-row-dense grid-cols-2 rounded-xl overflow-hidden shadow-xl">
+        <div className="grid grid-flow-row-dense grid-cols-2 rounded-xl overflow-hidden shadow-xl gap-0">
 
           {/* CanvasContainer */}
           <CanvasContainer/>
