@@ -8,13 +8,13 @@ import { stop } from '../../reducers/timer/storageTimer';
 
 export const CanvasContainer = (): JSX.Element | null => {
 
-  const currentCanvas = useRef<CanvasDraw>(null);
+  const currentCanvas = useRef<any>(null);
   const dispatch = useAppDispatch();
   const gameState = useAppSelector( selectGame );
 
   const [canvas] = useState<CanvasDrawProps>({
-    canvasWidth: 500,
-    canvasHeight: 500,
+    canvasWidth: 475,
+    canvasHeight: 475,
     brushRadius: 7,
     lazyRadius: 0,
     gridColor: '#FFFFFF',
@@ -29,7 +29,11 @@ export const CanvasContainer = (): JSX.Element | null => {
   };
 
   const handleSendClick = () => {
-    // const letter = getRandomLetter();
+    
+    const canvasImg = currentCanvas.current?.getDataURL();
+    alert( 'Canvas pasted into console.' );
+    console.log( canvasImg );
+
     let letter = prompt('Type a letter' )?.toUpperCase();
     if( ! letter ) letter = '';
 
