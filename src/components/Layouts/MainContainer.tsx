@@ -1,10 +1,109 @@
-import React from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { CanvasContainer } from '../Canvas/CanvasContainer';
+import { Title } from './global';
+import { Clues, Hangman, Letters, Timer, UsedLetters, User } from './ui';
+import { useAppDispatch, useAppSelector } from '../../hooks/index';
+import { start as startChallenge, selectGame } from '../../reducers/game/storageGame';
+import { start as startTimer } from '../../reducers/timer/storageTimer';
 
-export const MainContainer = (): JSX.Element | null => {
+import { Letters as SkeletonLetters } from './ui/Skeleton/Letters';
+import { IModalProps, Modal } from './ui/Modal/Modal';
+
+import { setChallenge } from '../../utils';
+
+type BuilderProps = {
+  modalProps: IModalProps
+}
+
+export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | null => {
+
+  const dispatch = useAppDispatch();
+  const gameState = useAppSelector( selectGame );  
+  const [word, setWord] = useState<string|null>(null);
+
+  const [usedWord, setUsedWord] = useState<Array<string>>([]);
+  const [usedLetters, setUsedLetters] = useState<Array<string>>([]);
+
+  /**
+   * Exclude repeated words.
+   */  
+  const excludeRepeatedWords = (): string => {
+    let word = '';
+    let unique = false;
+    while( ! unique ) {
+      word = setChallenge( gameState.level );
+      if( ! usedWord.includes( word ) ) {
+        setUsedWord([ ...usedWord, word ]);
+        unique = true;
+      }
+    }
+    return word;
+  };
+
+  useEffect( () => {
+
+    if( ! gameState.challenge ) {
+
+      const challenge = excludeRepeatedWords();
+
+      dispatch( startChallenge( challenge ) );
+      dispatch( startTimer() );
+      setWord( challenge );
+    }
+
+    if( usedLetters !== gameState.usedLetters ) {
+      setUsedLetters( gameState.usedLetters );
+    }
+
+  }, [word, gameState.challenge, gameState.usedLetters] );
+
   return (
-    <div className="bg-slate-100 w-2/3 h-1/2 p-6 rounded-xl shadow-xl">
-      <h1 className="text-7xl font-bold pb-3">Hello world!</h1>
-      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Amet saepe id ad a ullam ipsum illo rerum fuga provident quas?</p>
-    </div>
+    <>
+
+      {/* Title */}
+      <Title />
+
+      <div className="max-w-screen-lg flex align-center justify-center relative">
+        <div className="grid grid-flow-row-dense grid-cols-2 rounded-xl overflow-hidden shadow-xl">
+
+          {/* CanvasContainer */}
+          <CanvasContainer/>
+
+          {/* UI */}
+          <div className="bg-gray-50 col-span-1 border-1 flex flex-col justify-end">
+
+            <div className="grid grid-cols-3 px-3 pt-3">
+
+              {/* Hangman */}
+              <Hangman />
+
+              {/* Used Letters */}
+              <UsedLetters usedLetters={ usedLetters }/>
+
+            </div>
+
+            <div className="lowerSection">
+
+              {/* Clues */}
+              <Clues />
+
+              { /* Timer */}
+              <Timer />
+
+              {
+                /* Hangman letters  */
+                word ? <Letters/> : <SkeletonLetters />
+              }
+            </div>
+
+          </div>
+        </div>
+
+        {/* User-UI */}
+        <User/>
+      </div>
+
+      <Modal { ...modalProps }/>
+    </>
   );
 };

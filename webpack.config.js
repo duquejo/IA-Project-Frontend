@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
@@ -14,6 +15,10 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.(jpg|png|svg)$/,
+                type: 'asset/resource'
+            },
             {
                 test: /\.[jt]sx?$/,
                 exclude: /node_modules/,
@@ -34,10 +39,14 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: 'style.css',
-        })
+        }),
+        new ESLintPlugin({
+            extensions: ['.tsx', '.ts', '.js'],
+            exclude: 'node_modules'
+        }),
     ],
     devServer: {
         open: true
     },
-    devtool: 'eval-source-map'
+    devtool: 'source-map'
 };

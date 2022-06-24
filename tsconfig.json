@@ -31,7 +31,8 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "src/svg/custom.d.ts"
   ],
   "exclude": [
     "node_modules/**/*",
