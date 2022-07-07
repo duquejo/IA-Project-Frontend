@@ -2,12 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
+    mode: 'development',
     entry: './src/index',
     output: {
-        filename: 'bundle.js',
+        filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
     },
     resolve: {
@@ -33,9 +35,11 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: "Fun game!",
-            template: path.resolve( __dirname, './public/index.html')
+            filename: 'index.html',
+            template: path.resolve( __dirname, 'public', 'index.html')
         }),
         new MiniCssExtractPlugin({
             filename: 'style.css',
@@ -48,5 +52,5 @@ module.exports = {
     devServer: {
         open: true
     },
-    devtool: 'source-map'
+    devtool: 'inline-source-map'
 };
