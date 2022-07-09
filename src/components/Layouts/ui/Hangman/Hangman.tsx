@@ -90,11 +90,11 @@ export const Hangman = (): JSX.Element | null => {
   }, [gameState.attempt, attempts]);
   
   return (
-    <div className="hangman-container overflow-hidden relative h-[300px] w-[300px] col-span-2 m-auto">
+    <div className="hangman-container overflow-hidden relative h-[200px] w-[200px] md:h-[300px] md:w-[300px] col-span-2 m-auto mb-2 md:mb-0">
       <div id="hangman" ref={ hangmanContainer }>
 
         {/* Pole */}
-        <img className="pole absolute" src={ pole } />
+        <img className="pole absolute h-full" src={ pole } />
 
         {/* Hangman */}
         {

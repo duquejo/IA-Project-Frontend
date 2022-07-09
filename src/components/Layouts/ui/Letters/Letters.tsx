@@ -24,12 +24,10 @@ export const Letters: FC = (): JSX.Element | null => {
   }, [gameState.challenge, gameState.usedLetters]);
 
   return (
-    <div className="h-24 pb-6 pt-3 px-3 flex items-end gap-2">
+    <div className="h-16 sm:h-24 pb-3 pt-3 px-3 flex items-end gap-2">
     {
       !! letters.length && letters.map(( letter: string, index: number ) => (
-        <div key={ `letter-${ index }`} className="letter">
-          { letter }
-        </div>
+        <div key={ `letter-${ index }`} className="letter">{ letter }</div>
       ))
     }
     </div>
