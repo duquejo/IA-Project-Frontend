@@ -8,13 +8,21 @@ export const CanvasContainer = (): JSX.Element | null => {
 
   const [canvas] = useState<CanvasDrawProps>( () => {
 
-    // // Calc canvas width (based on screen)
-    // const canvasWidth = ( window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth ) <= 768 ? 308 : 476;
-    // console.log( window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth );
+    // Calc canvas width (based on screen)
+    const screenDimentions = Number(window.innerWidth);
+    console.log( screenDimentions );
+    let canvasWidth: number;
+    if ( screenDimentions <= 360 ) {
+      canvasWidth = 308;
+    } else if ( screenDimentions > 360  && screenDimentions <= 768 ){
+      canvasWidth = 364;
+    } else {
+      canvasWidth = 476;
+    }
 
     return {
-      canvasWidth: 476,
-      canvasHeight: 476,
+      canvasWidth: canvasWidth,
+      canvasHeight: canvasWidth,
       brushRadius: 7,
       lazyRadius: 0,
       gridColor: '#FFFFFF',

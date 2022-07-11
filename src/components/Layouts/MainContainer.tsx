@@ -51,7 +51,7 @@ export const MainContainer: FC<BuilderProps> = (): JSX.Element | null => {
   }, [word, gameState.challenge, gameState.usedLetters] );
 
   return (
-      <div className="flex relative">
+      <div className="flex relative mb-12 sm:mb-auto">
         <div className="grid grid-flow-dense grid-cols-1 rounded-xl overflow-hidden shadow-xl sm:grid-cols-2">
 
           {/* CanvasContainer */}
