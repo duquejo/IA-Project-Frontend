@@ -70,3 +70,21 @@ export const getRandomTrick = (): string => {
   ];
   return tricks[ Math.floor(Math.random() * tricks.length) ];
 }
+
+interface IFetchRecognitionResponse {
+  data: IFetchRecognitionData;
+  message: string;
+}
+
+interface IFetchRecognitionData {
+  recognized: boolean;
+  letter: string;
+}
+
+export const fetchRecognition = async ( image: string ): Promise<IFetchRecognitionResponse> => {
+  const request = await fetch( 'http://localhost:8000/recognize', {
+    method: 'POST',
+    body: JSON.stringify({ data: image })
+  });
+  return await request.json();
+}

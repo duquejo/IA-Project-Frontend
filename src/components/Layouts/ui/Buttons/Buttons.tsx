@@ -3,6 +3,7 @@ import { stop } from '../../../../reducers/timer/storageTimer';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
 import { addAttempt, addLetter, addLevel, selectGame, setModalStatus } from '../../../../reducers/game/storageGame';
 import { ModalStatuses } from '../../../../reducers/game/storageGameTypes';
+import { fetchRecognition } from '../../../../utils/index';
 
 type BuilderProps = {
     canvas: any
@@ -21,14 +22,18 @@ export const Buttons: FC<BuilderProps> = ({ canvas }): JSX.Element | null => {
         canvas.current?.undo();
     };
 
-    const handleSendClick = () => {
+    const handleSendClick = async () => {
 
-        const canvasImg = canvas.current?.getDataURL();
+        const canvasImg = canvas.current?.getDataURL( 'jpeg', false, '#ffffff' );
         console.log( 'Canvas pasted into console.' );
-        console.log( canvasImg );
 
-        let letter = prompt('Type a letter' )?.toUpperCase();
-        if( ! letter ) letter = '';
+        const { data, message } = await fetchRecognition( canvasImg );
+
+        console.log( canvasImg );
+        console.log( data, message );
+        
+        // let letter = prompt('Type a letter' )?.toUpperCase();
+        // if( ! letter ) letter = '';
 
         const { challenge, usedLetters } = gameState;
 
@@ -36,16 +41,16 @@ export const Buttons: FC<BuilderProps> = ({ canvas }): JSX.Element | null => {
          * Check if its correct.
          */
         console.log({ 
-            letter,
-            includes: challenge?.includes( letter ),
-            exists: challenge?.includes( letter ) && usedLetters.includes( letter ),
+            letter: data.letter,
+            includes: challenge?.includes( data.letter ),
+            exists: challenge?.includes( data.letter ) && usedLetters.includes( data.letter ),
             challenge
         });
 
         /**
          * If isn't into the challenge or If was added as a successful value and is inserted again.
          */
-        if( ! challenge?.includes( letter ) || challenge?.includes( letter ) && usedLetters.includes( letter ) ) {
+        if( ! data.recognized || ! challenge?.includes( data.letter ) || challenge?.includes( data.letter ) && usedLetters.includes( data.letter ) ) {
             dispatch( addAttempt() );
             dispatch( setModalStatus( gameState.lifes >= 1 ? ModalStatuses.LOSE : ModalStatuses.GAMEOVER ) );
         } else {
@@ -56,20 +61,25 @@ export const Buttons: FC<BuilderProps> = ({ canvas }): JSX.Element | null => {
             let equality = 0;
             const splittedChallenge = challenge.split('');
             splittedChallenge.forEach( ( challengeLetter: string ) => {
-            if( [ letter, ...usedLetters ].includes( challengeLetter ) ) {
+            if( [ data.letter, ...usedLetters ].includes( challengeLetter ) ) {
                 equality++;
             }
             });
 
             if( equality === splittedChallenge.length ) {
-            dispatch( stop() );
-            dispatch( addLevel() );
-            dispatch( setModalStatus( ModalStatuses.WIN ) );
-            console.log('You win!');
+                dispatch( stop() );
+                dispatch( addLevel() );
+                dispatch( setModalStatus( ModalStatuses.WIN ) );
+                console.log('You win!');
             }
         }
 
-        dispatch( addLetter( letter ) );
+        /**
+         * Only add recognized letters.
+         */
+        if( data.recognized ) {
+            dispatch( addLetter( data.letter ) );
+        }
 
         // Clear
         canvas.current?.clear();
@@ -77,7 +87,7 @@ export const Buttons: FC<BuilderProps> = ({ canvas }): JSX.Element | null => {
 
     const handlePassAway = () => {
         dispatch( stop() );
-        dispatch( setModalStatus( ModalStatuses.LOSE ) );
+        dispatch( setModalStatus( gameState.lifes > 1 ? ModalStatuses.LOSE : ModalStatuses.GAMEOVER ) );
     };
 
     return (

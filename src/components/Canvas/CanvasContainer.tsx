@@ -10,7 +10,7 @@ export const CanvasContainer = (): JSX.Element | null => {
 
     // Calc canvas width (based on screen)
     const screenDimentions = Number(window.innerWidth);
-    console.log( screenDimentions );
+    console.log({ screenDimentions });
     let canvasWidth: number;
     if ( screenDimentions <= 360 ) {
       canvasWidth = 308;
@@ -26,6 +26,7 @@ export const CanvasContainer = (): JSX.Element | null => {
       brushRadius: 7,
       lazyRadius: 0,
       gridColor: '#FFFFFF',
+      brushColor: "#000000",
     };
   });
 
