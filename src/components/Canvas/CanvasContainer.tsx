@@ -1,113 +1,39 @@
 import React, { useRef, useState } from 'react';
 import CanvasDraw, { CanvasDrawProps } from 'react-canvas-draw';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { addLetter, addAttempt, selectGame, addLevel, setModalStatus } from '../../reducers/game/storageGame';
-import { ModalStatuses } from '../../reducers/game/storageGameTypes';
-import { stop } from '../../reducers/timer/storageTimer';
-
+import { Buttons } from '../Layouts/ui';
 
 export const CanvasContainer = (): JSX.Element | null => {
 
   const currentCanvas = useRef<any>(null);
-  const dispatch = useAppDispatch();
-  const gameState = useAppSelector( selectGame );
 
-  const [canvas] = useState<CanvasDrawProps>({
-    canvasWidth: 475,
-    canvasHeight: 475,
-    brushRadius: 7,
-    lazyRadius: 0,
-    gridColor: '#FFFFFF',
-  });
+  const [canvas] = useState<CanvasDrawProps>( () => {
 
-  const handleEraseCanvas = () => {
-    currentCanvas.current?.clear();
-  };
-
-  const handleUndoCanvas = () => {
-    currentCanvas.current?.undo();
-  };
-
-  const handleSendClick = () => {
-    
-    const canvasImg = currentCanvas.current?.getDataURL();
-    alert( 'Canvas pasted into console.' );
-    console.log( canvasImg );
-
-    let letter = prompt('Type a letter' )?.toUpperCase();
-    if( ! letter ) letter = '';
-
-    const { challenge, usedLetters } = gameState;
-    
-    /**
-     * Check if its correct.
-     */
-    console.log({ 
-      letter,
-      includes: challenge?.includes( letter ),
-      exists: challenge?.includes( letter ) && usedLetters.includes( letter ),
-      challenge
-    });
-    
-    /**
-     * If isn't into the challenge or If was added as a successful value and is inserted again.
-     */
-    if( ! challenge?.includes( letter ) || challenge?.includes( letter ) && usedLetters.includes( letter ) ) {
-      dispatch( addAttempt() );
-      dispatch( setModalStatus( gameState.lifes >= 1 ? ModalStatuses.LOSE : ModalStatuses.GAMEOVER ) );
+    // Calc canvas width (based on screen)
+    const screenDimentions = Number(window.innerWidth);
+    console.log({ screenDimentions });
+    let canvasWidth: number;
+    if ( screenDimentions <= 360 ) {
+      canvasWidth = 308;
+    } else if ( screenDimentions > 360  && screenDimentions <= 768 ){
+      canvasWidth = 364;
     } else {
-
-      /**
-       * Successful letter, add it.
-       */
-      let equality = 0;
-      const splittedChallenge = challenge.split('');
-      splittedChallenge.forEach( ( challengeLetter: string ) => {
-        if( [ letter, ...usedLetters ].includes( challengeLetter ) ) {
-          equality++;
-        }
-      });
-
-      if( equality === splittedChallenge.length ) {
-        dispatch( stop() );
-        dispatch( addLevel() );
-        dispatch( setModalStatus( ModalStatuses.WIN ) );
-        console.log('You win!');
-      }
+      canvasWidth = 476;
     }
 
-    dispatch( addLetter( letter ) );
-
-    // Clear
-    currentCanvas.current?.clear();
-  };
-
-  const handlePassAway = () => {
-    // Stop timer
-    prompt('Are you sure?');
-    dispatch( stop() );
-    dispatch( setModalStatus( ModalStatuses.LOSE ) );
-  };
+    return {
+      canvasWidth: canvasWidth,
+      canvasHeight: canvasWidth,
+      brushRadius: 7,
+      lazyRadius: 0,
+      gridColor: '#FFFFFF',
+      brushColor: "#000000",
+    };
+  });
 
   return (
-    <div className="bg-white w-full m-0 relative">
-
+    <div className="canvasContainer bg-white relative md:w-[476px] w-full overflow-x-hidden">
       <CanvasDraw { ...canvas } ref={ currentCanvas }/>
-      
-      <div id="controls" className="bg-slate-50 absolute bottom-0 h-24 pb-6 pt-3 px-3 w-full flex justify-between gap-2">
-        <button className="canvasButton hover:bg-red-700" onClick={ handleEraseCanvas }>
-          Erase
-        </button>
-        <button className="canvasButton hover:bg-blue-700" onClick={ handleUndoCanvas }>
-          Undo
-        </button>
-        <button className="canvasButton hover:bg-green-700" onClick={ handleSendClick }>
-         Send
-        </button>
-        <button className="canvasButton hover:bg-amber-700" onClick={ handlePassAway }>
-         Give up
-        </button>
-      </div>
+      <Buttons canvas={ currentCanvas }/>
     </div>
   );
 };

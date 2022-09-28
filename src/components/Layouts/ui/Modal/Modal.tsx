@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-
 import { useAppSelector, useAppDispatch } from '../../../../hooks';
 import { selectTimer, reset } from '../../../../reducers/timer/storageTimer';
 import { minusLife, resetAttempt, resetLetters, selectGame, start as startChallenge } from '../../../../reducers/game/storageGame';
@@ -30,7 +29,6 @@ export const Modal: FC<IModalProps> = ({
             dispatch( resetAttempt() );
             dispatch( startChallenge( '' ) );
             dispatch( resetLetters() );
-
             /**
              * Minus lifes only if the current status is lose.
              */
@@ -44,12 +42,12 @@ export const Modal: FC<IModalProps> = ({
 
     return open ? (
         <div className="animate-fade-in fixed inset-0 bg-black bg-opacity-70 overflow-y-auto h-full w-full flex z-10">
-            <div className="w-1/3 h-1/3 p-5 rounded-xl shadow-lg bg-white m-auto flex flex-col justify-evenly z-20">
-                <h1 className="text-black text-center mb-2">{ title }</h1>
+            <div className="w-full h-1/3 mx-4 my-auto sm:w-1/3 sm:h-1/4 p-5 rounded-xl shadow-lg bg-white sm:m-auto flex flex-col justify-evenly z-20">
+                <h1 className="text-black text-center mb-2 text-3xl sm:text-6xl">{ title }</h1>
                 <p className="text-center">{ content }</p>
                 { 
                     gameState.modalStatus !== ModalStatuses.GAMEOVER ? 
-                    <button className="modalButton" onClick={ handleClick }>{ btnText }</button>
+                        <button className="modalButton" onClick={ handleClick }>{ btnText }</button>
                     : <button className="modalButton" onClick={ refreshPage }>Restart game</button>
                 }
             </div>

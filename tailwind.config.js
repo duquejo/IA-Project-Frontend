@@ -1,6 +1,14 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {  
+    screens: {
+      xs: '320px',
+      sm: '744px',
+      md: '1024px',
+      lg: '1133px',
+      xl: '1280px',
+      '2xl': '1366px'
+    },    
     extend: {
       fontFamily: {
         dosis: [ 'Dosis', 'sans-serif' ]

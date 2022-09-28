@@ -58,3 +58,33 @@ export const setChallenge = ( level: number ) => {
   }
   return wordsSet[ Math.floor(Math.random() * wordsSet.length) ].toLocaleUpperCase();
 };
+
+export const getRandomTrick = (): string => {
+  const tricks = [
+    'Get ready for the next challenge!.',
+    'Start with the most common letters, like vowels, or some consonants as R, S, T, L or N.',
+    'Strategically pick your first vowels based on word length.',
+    'Be gentle with your AI partner, draw legible uppercase letters',
+    'A longer word doesn\'t mean that it will be hard, be patient and think first about it', 
+    'You have 6 attempts in total and 3 lifes.'
+  ];
+  return tricks[ Math.floor(Math.random() * tricks.length) ];
+}
+
+interface IFetchRecognitionResponse {
+  data: IFetchRecognitionData;
+  message: string;
+}
+
+interface IFetchRecognitionData {
+  recognized: boolean;
+  letter: string;
+}
+
+export const fetchRecognition = async ( image: string ): Promise<IFetchRecognitionResponse> => {
+  const request = await fetch( 'http://localhost:8000/recognize', {
+    method: 'POST',
+    body: JSON.stringify({ data: image })
+  });
+  return await request.json();
+}

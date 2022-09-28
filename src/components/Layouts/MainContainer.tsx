@@ -1,21 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
 import { CanvasContainer } from '../Canvas/CanvasContainer';
-import { Title } from './global';
-import { Clues, Hangman, Letters, Timer, UsedLetters, User } from './ui';
+import { HangmanContainer } from './ui';
 import { useAppDispatch, useAppSelector } from '../../hooks/index';
 import { start as startChallenge, selectGame } from '../../reducers/game/storageGame';
 import { start as startTimer } from '../../reducers/timer/storageTimer';
-
-import { Letters as SkeletonLetters } from './ui/Skeleton/Letters';
-import { IModalProps, Modal } from './ui/Modal/Modal';
-
 import { setChallenge } from '../../utils';
 
-type BuilderProps = {
-  modalProps: IModalProps
-}
+type BuilderProps = {}
 
-export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | null => {
+export const MainContainer: FC<BuilderProps> = (): JSX.Element | null => {
 
   const dispatch = useAppDispatch();
   const gameState = useAppSelector( selectGame );  
@@ -58,52 +51,15 @@ export const MainContainer: FC<BuilderProps> = ({ modalProps }): JSX.Element | n
   }, [word, gameState.challenge, gameState.usedLetters] );
 
   return (
-    <>
-
-      {/* Title */}
-      <Title />
-
-      <div className="max-w-screen-lg flex align-center justify-center relative">
-        <div className="grid grid-flow-row-dense grid-cols-2 rounded-xl overflow-hidden shadow-xl">
+      <div className="flex relative mb-12 sm:mb-auto">
+        <div className="grid grid-flow-dense grid-cols-1 rounded-xl overflow-hidden shadow-xl sm:grid-cols-2">
 
           {/* CanvasContainer */}
           <CanvasContainer/>
 
-          {/* UI */}
-          <div className="bg-gray-50 col-span-1 border-1 flex flex-col justify-end">
-
-            <div className="grid grid-cols-3 px-3 pt-3">
-
-              {/* Hangman */}
-              <Hangman />
-
-              {/* Used Letters */}
-              <UsedLetters usedLetters={ usedLetters }/>
-
-            </div>
-
-            <div className="lowerSection">
-
-              {/* Clues */}
-              <Clues />
-
-              { /* Timer */}
-              <Timer />
-
-              {
-                /* Hangman letters  */
-                word ? <Letters/> : <SkeletonLetters />
-              }
-            </div>
-
-          </div>
+          {/* HangmanUI */}
+          <HangmanContainer usedLetters={ usedLetters } word={ word } />
         </div>
-
-        {/* User-UI */}
-        <User/>
       </div>
-
-      <Modal { ...modalProps }/>
-    </>
   );
 };
