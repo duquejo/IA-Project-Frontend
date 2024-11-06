@@ -1,5 +1,7 @@
 # IA Hangman Project
 
+_Link to [Backend repository URL](https://github.com/duquejo/IA-BackendNode)_
+
 ### NPM Commands
 *   **start**: `webpack serve --mode development`,
 *   **build**: `webpack --mode production --config webpack.config.prod.js`,
